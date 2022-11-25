@@ -1,13 +1,26 @@
 from flask import Flask, render_template, request, url_for, flash
 from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
+import mysql.connector 
+import logging
 
+conn=mysql.connector.connect(user='Suruchi',password='12345678',host='database-1.caomyyms75ok.us-east-1.rds.amazonaws.com',database='crudapplication')
+cursor=conn.cursor()
+cursor.execute("DROP TABLE IF EXISTs students")
+sql='''CREATE TABLE students(id INT(11) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL)'''
+
+cursor.execute(sql)
+conn.close()
 
 app = Flask(__name__)
+logging.basicConfig(filename='my-logs', level=logging.INFO,format='%(levelname)s:%(message)s')
 app.secret_key = 'many random bytes'
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_HOST'] = 'database-1.caomyyms75ok.us-east-1.rds.amazonaws.com'
+app.config['MYSQL_USER'] = 'Suruchi'
 app.config['MYSQL_PASSWORD'] = '123456789'
 app.config['MYSQL_DB'] = 'crudapplication'
 
@@ -27,6 +40,7 @@ def Index():
 def insert():
     if request.method == "POST":
         flash("Data Inserted Successfully")
+        logging.info(name)
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
@@ -65,6 +79,4 @@ def update():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
+    app.run(debug=True,host="0.0.0.0",port=80)
