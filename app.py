@@ -4,7 +4,7 @@ from flask_mysqldb import MySQL
 import mysql.connector 
 #import logging
 
-mydb=mysql.connector.connect(host="localhost",user="root",password="")
+mydb=mysql.connector.connect(host="database-1.caomyyms75ok.us-east-1.rds.amazonaws.com",user="Suruchi",password="123456789")
 mycursor=mydb.cursor()
 mycursor.execute("DROP DATABASE IF EXISTS crudapplication")
 mycursor.execute("CREATE DATABASE crudapplication")
