@@ -2,9 +2,15 @@ from flask import Flask, render_template, request, url_for, flash
 from werkzeug.utils import redirect
 from flask_mysqldb import MySQL
 import mysql.connector 
-import logging
+#import logging
 
-conn=mysql.connector.connect(user='Suruchi',password='12345678',host='database-1.caomyyms75ok.us-east-1.rds.amazonaws.com',database='crudapplication')
+mydb=mysql.connector.connect(host="localhost",user="root",password="")
+mycursor=mydb.cursor()
+mycursor.execute("DROP DATABASE IF EXISTS crudapplication")
+mycursor.execute("CREATE DATABASE crudapplication")
+mydb.close()
+
+conn=mysql.connector.connect(user='Suruchi',password='123456789',host='database-1.caomyyms75ok.us-east-1.rds.amazonaws.com',database='crudapplication')
 cursor=conn.cursor()
 cursor.execute("DROP TABLE IF EXISTs students")
 sql='''CREATE TABLE students(id INT(11) NOT NULL,
@@ -16,7 +22,7 @@ cursor.execute(sql)
 conn.close()
 
 app = Flask(__name__)
-logging.basicConfig(filename='my-logs', level=logging.INFO,format='%(levelname)s:%(message)s')
+#logging.basicConfig(filename='my-logs', level=logging.INFO,format='%(levelname)s:%(message)s')
 app.secret_key = 'many random bytes'
 
 app.config['MYSQL_HOST'] = 'database-1.caomyyms75ok.us-east-1.rds.amazonaws.com'
@@ -40,7 +46,7 @@ def Index():
 def insert():
     if request.method == "POST":
         flash("Data Inserted Successfully")
-        logging.info(name)
+        #logging.info(name)
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
