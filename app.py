@@ -78,6 +78,7 @@ def update():
         UPDATE students SET name=%s, email=%s, phone=%s
         WHERE id=%s
         """, (name, email, phone, id_data))
+        mysql.connection.commit()
         flash("Data Updated Successfully")
         return redirect(url_for('Index'))
 
