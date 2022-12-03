@@ -46,10 +46,10 @@ def Index():
 def insert():
     if request.method == "POST":
         flash("Data Inserted Successfully")
-        logging.info(name)
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
+        logging.info(name)
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO students (name, email, phone) VALUES (%s, %s, %s)", (name, email, phone))
         mysql.connection.commit()
