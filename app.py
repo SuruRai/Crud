@@ -47,9 +47,9 @@ def insert():
     if request.method == "POST":
         flash("Data Inserted Successfully")
         name = request.form['name']
+        logging.info(name)
         email = request.form['email']
         phone = request.form['phone']
-        logging.info(name)
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO students (name, email, phone) VALUES (%s, %s, %s)", (name, email, phone))
         mysql.connection.commit()
